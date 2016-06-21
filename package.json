@@ -1,5 +1,5 @@
 {
-  "name": "model",
+  "name": "model-base",
   "version": "1.0.0",
   "description": "Model Utility Classes",
   "main": "index.js",
