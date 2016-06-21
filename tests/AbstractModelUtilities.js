@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const ModelUtilities = require('../model_utilities');
+const ModelUtilities = require('../lib/model_utilities');
 
 /* First 3 values should be valid and last 3 invalid */
 const createExpectations = (test_object) => {
@@ -18,7 +18,6 @@ const createExpectations = (test_object) => {
 				test_return: test_return,
 				test_function: test_function,
 				label: `Test: ${valid}`
-
 			});
 		});
 	});

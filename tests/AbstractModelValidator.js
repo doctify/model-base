@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const ModelValidator = require('../model_validator');
+const ModelValidator = require('../lib/model_validator');
 
 /* First 3 values should be valid and last 3 invalid */
 const createExpectations = (test_object) => {

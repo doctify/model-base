@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const Model = require('../model');
+const Model = require('../lib/model');
 
 const createExpectations = (type, values) => {
 	let test_key = 'test_key';
