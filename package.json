@@ -1,6 +1,6 @@
 {
   "name": "model-base",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "description": "Model Utility Classes",
   "main": "index.js",
   "author": "Devonte Emokpae",
@@ -10,7 +10,10 @@
     "url": "https://github.com/devotox/model-base/issues"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "preversion": "npm test",
+    "release": "npm version patch && npm publish",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
     "gulp-eslint": "2.0.0",
     "eslint-friendly-formatter": "2.0.5",
     "gulp-jshint": "2.0.1",
+    "gulp-jsinspect": "2.0.0",
     "gulp-load-plugins": "1.2.4",
     "gulp-mocha": "2.2.0",
     "gulp-shell": "0.5.2",

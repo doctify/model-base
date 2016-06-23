@@ -28,17 +28,33 @@ global.api_path = path.join(__dirname, '/');
 
 gulp.task('default', ['test']);
 
+// ====================================  Test ============================================================ //
 
-// ====================================  Local Test ============================================================ //
-
+gulp.task('clean-test-reports', $.shell.task([
+	'test -d test-reports && rm -rf test-reports || echo "[ Clean Test Reports ] No Test Reports Folder"',
+	'test -d test-coverage && rm -rf test-coverage || echo "[ Clean Test Coverage ] No Test Coverage Folder"'
+]));
 
 gulp.task('istanbul', function () {
-	return gulp.src(['./**/*.js', '!./index.js', '!./gulpfile.js',
+	return gulp.src(['./**/*.js',
+		'!./index.js', '!./gulpfile.js',
 		'!./{test-coverage,test-coverage/**}',
 		'!./bower_components/**',
 		'!./node_modules/**'])
 		.pipe($.istanbul({ includeUntested: true }))
 		.pipe($.istanbul.hookRequire());
+});
+
+gulp.task('jsinspect', function () {
+	return gulp.src(['./**/*.js','!./tests/**',
+		'!./{test-coverage,test-coverage/**}',
+		'!./bower_components/**',
+		'!./node_modules/**'])
+		.pipe($.jsinspect({
+			'suppress': 0,
+			'threshold': 30,
+			'identifiers': true
+		}));
 });
 
 gulp.task('lint', function() {
@@ -51,39 +67,6 @@ gulp.task('lint', function() {
 		.pipe( $.jshint.reporter('fail') );
 });
 
-gulp.task('mocha', function(){
-	return gulp.src('tests/index.js')
-		.pipe( $.shell(['export NODE_TLS_REJECT_UNAUTHORIZED=0']) )
-		.pipe( gulp.src('tests/index.js', { read: false }) )
-		.pipe( $.mocha({ reporter: 'spec', timeout: 20000 }) )
-		.pipe( $.istanbul.writeReports({dir: './test-coverage'}) )
-		.on('end', function(){ return gulp.start('clean-test-reports'); });
-});
-
-gulp.task('test', function(done) {
-	return run_sequence('istanbul', 'lint', 'mocha', function() {
-		exit(); done();
-	});
-});
-
-
-// ====================================  Jenkins Test ============================================================ //
-
-
-gulp.task('clean-test-reports', $.shell.task([
-	'test -d test-reports && rm -rf test-reports || echo "[ Clean Test Reports ] No Test Reports Folder"',
-	'test -d test-coverage && rm -rf test-coverage || echo "[ Clean Test Coverage ] No Test Coverage Folder"'
-]));
-
-gulp.task('istanbul-jenkins', function () {
-	return gulp.src(['./**/*.js', '!./index.js', '!./gulpfile.js',
-		'!./{test-coverage,test-coverage/**}',
-		'!./bower_components/**',
-		'!./node_modules/**'])
-		.pipe($.istanbul({ includeUntested: true }))
-		.pipe($.istanbul.hookRequire());
-});
-
 gulp.task('lint-jenkins', function() {
 	return gulp.src(['./**/*.js',
 		'!./{test-coverage,test-coverage/**}',
@@ -93,6 +76,15 @@ gulp.task('lint-jenkins', function() {
 		.pipe( $.jshint.reporter('gulp-checkstyle-jenkins-reporter', {
 			filename:'./test-reports/api-jshint-tests-report.xml'
 		}) );
+});
+
+gulp.task('mocha', function(){
+	return gulp.src('tests/index.js')
+		.pipe( $.shell(['export NODE_TLS_REJECT_UNAUTHORIZED=0']) )
+		.pipe( gulp.src('tests/index.js', { read: false }) )
+		.pipe( $.mocha({ reporter: 'spec', timeout: 20000 }) )
+		.pipe( $.istanbul.writeReports({dir: './test-coverage'}) )
+		.on('end', function(){ return gulp.start('clean-test-reports'); });
 });
 
 gulp.task('mocha-jenkins', function(){
@@ -115,8 +107,14 @@ gulp.task('mocha-jenkins', function(){
 		.pipe($.istanbul.enforceThresholds({ thresholds: { global: 0 } }));
 });
 
+gulp.task('test', function(done) {
+	return run_sequence('istanbul', 'jsinspect', 'lint', 'mocha', function() {
+		exit(); done();
+	});
+});
+
 gulp.task('test-jenkins', function(done){
-	return run_sequence('clean-test-reports', 'istanbul-jenkins', 'lint-jenkins', 'mocha-jenkins', function() {
+	return run_sequence('clean-test-reports', 'istanbul', 'jsinspect', 'lint-jenkins', 'mocha-jenkins', function() {
 		exit(); done();
 	});
 });
