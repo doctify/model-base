@@ -12,7 +12,8 @@
   "scripts": {
     "test": "gulp test",
     "preversion": "npm test",
-    "release": "npm version patch && npm publish",
+    "release": "npm version",
+    "postrelease": "npm publish",
     "postversion": "git push && git push --tags"
   },
   "repository": {
