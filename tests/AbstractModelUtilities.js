@@ -55,6 +55,16 @@ describe('AbstractModelUtilities', () => {
 		});
 	});
 
+	describe('Validate Moment', () => {
+		it('Validate Formats', done => {
+			let formats = [ "YYYY-MM-DD" ];
+			let value = "1900-10-10";
+			let isValid = ModelUtilities.validateMoment(value, formats);
+			chai.assert(isValid === true);
+			done();
+		});
+	});
+
 	describe('Is Function', () => {
 		let test_object = {
 			'isFunction': [ function(){}, createExpectations, describe, undefined, null, '' ]
