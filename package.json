@@ -1,52 +1,52 @@
 {
   "name": "model-base",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Model Utility Classes",
   "main": "index.js",
   "author": "Devonte Emokpae",
   "license": "MIT",
   "homepage": "https://github.com/devotox/model-base#readme",
   "bugs": {
-	"url": "https://github.com/devotox/model-base/issues"
+    "url": "https://github.com/devotox/model-base/issues"
   },
   "scripts": {
-	"test": "gulp test",
-	"preversion": "npm test",
-	"postrelease": "npm publish",
-	"release": "npm version patch",
-	"postversion": "git push && git push --tags"
+    "test": "gulp test",
+    "preversion": "npm test",
+    "postrelease": "npm publish",
+    "release": "npm version patch",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
-	"type": "git",
-	"url": "git+https://github.com/devotox/model-base.git"
+    "type": "git",
+    "url": "git+https://github.com/devotox/model-base.git"
   },
   "dependencies": {
-	"lodash": "4.13.1",
-	"moment": "2.13.0",
-	"validator": "5.4.0"
+    "lodash": "4.13.1",
+    "moment": "2.13.0",
+    "validator": "5.4.0"
   },
   "devDependencies": {
-	"chai": "3.5.0",
-	"gulp": "3.9.1",
-	"gulp-checkstyle-jenkins-reporter": "2.1.0",
-	"gulp-istanbul": "1.0.0",
-	"gulp-eslint": "2.0.0",
-	"eslint-friendly-formatter": "2.0.5",
-	"gulp-jshint": "2.0.1",
-	"gulp-jsinspect": "2.0.0",
-	"gulp-load-plugins": "1.2.4",
-	"gulp-mocha": "2.2.0",
-	"gulp-shell": "0.5.2",
-	"gulp-watch": "4.3.8",
-	"jshint": "2.9.2",
-	"jshint-stylish": "2.2.0",
-	"mocha": "2.5.3",
-	"mocha-jenkins-reporter": "0.2.2",
-	"qunitjs": "2.0.0",
-	"run-sequence": "1.2.1"
+    "chai": "3.5.0",
+    "gulp": "3.9.1",
+    "gulp-checkstyle-jenkins-reporter": "2.1.0",
+    "gulp-istanbul": "1.0.0",
+    "gulp-eslint": "2.0.0",
+    "eslint-friendly-formatter": "2.0.5",
+    "gulp-jshint": "2.0.1",
+    "gulp-jsinspect": "2.0.0",
+    "gulp-load-plugins": "1.2.4",
+    "gulp-mocha": "2.2.0",
+    "gulp-shell": "0.5.2",
+    "gulp-watch": "4.3.8",
+    "jshint": "2.9.2",
+    "jshint-stylish": "2.2.0",
+    "mocha": "2.5.3",
+    "mocha-jenkins-reporter": "0.2.2",
+    "qunitjs": "2.0.0",
+    "run-sequence": "1.2.1"
   },
   "keywords": [
-	"Model",
-	"Utilities"
+    "Model",
+    "Utilities"
   ]
 }
