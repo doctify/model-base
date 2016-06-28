@@ -229,14 +229,27 @@ describe('AbstractModel', () => {
 			done();
 		});
 
-		it('Validate', done => {
+		it('Validate Pass', done => {
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 			let valid = TestModel.validate();
 			chai.assert(valid.toString('test_key') === 'test', 'Incorrect Validation');
 			done();
 		});
 
-		it('test', done => {
+		it('Validate Fail', done => {
+			let expectation = {
+				test_values: { test_key: 'test' },
+				test_attributes: { test_key: { required: true, type: 'integer' } }
+			};
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+			try { TestModel.validate(); }
+			catch(e) {
+				chai.assert(JSON.parse(e.message)[0] === 'test_key should be of type integer');
+			}
+			done();
+		});
+
+		it('Test', done => {
 			let test_key = 'test_key';
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 			let valid = TestModel.test(expectation.test_attributes[test_key], test_key);
@@ -354,6 +367,33 @@ describe('AbstractModel', () => {
 			runTests(expectations);
 		});
 
+		describe('Time Validation', () => {
+			let type = 'time';
+			let invalid_value = '';
+			let valid_value = '09:00';
+			let values = [ undefined, valid_value, invalid_value, undefined, valid_value, invalid_value ];
+			let expectations = createExpectations(type, values);
+			runTests(expectations);
+		});
+
+		describe('Date Time Validation', () => {
+			let type = 'time';
+			let invalid_value = '';
+			let valid_value = '1900-01-01 09:00:00';
+			let values = [ undefined, valid_value, invalid_value, undefined, valid_value, invalid_value ];
+			let expectations = createExpectations(type, values);
+			runTests(expectations);
+		});
+
+		describe('Date Range Validation', () => {
+			let type = 'time';
+			let invalid_value = '';
+			let valid_value = JSON.stringify(['1900-01-01 09:00:00', '1900-01-01 09:00:00']);
+			let values = [ undefined, valid_value, invalid_value, undefined, valid_value, invalid_value ];
+			let expectations = createExpectations(type, values);
+			runTests(expectations);
+		});
+
 		describe('Email Validation', () => {
 			let type = 'email';
 			let invalid_value = '';
@@ -448,6 +488,15 @@ describe('AbstractModel', () => {
 			let type = 'uuid';
 			let invalid_value = '';
 			let valid_value = '426fc69a-7572-4c39-95a7-683a97166973';
+			let values = [ undefined, valid_value, invalid_value, undefined, valid_value, invalid_value ];
+			let expectations = createExpectations(type, values);
+			runTests(expectations);
+		});
+
+		describe('Slug Validation', () => {
+			let type = 'slug';
+			let invalid_value = '426fc69a-7572-4c39-95a7-683a97166973';
+			let valid_value = 'slug';
 			let values = [ undefined, valid_value, invalid_value, undefined, valid_value, invalid_value ];
 			let expectations = createExpectations(type, values);
 			runTests(expectations);

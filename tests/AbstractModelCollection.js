@@ -185,6 +185,13 @@ describe('AbstractModelCollection', () => {
 		done();
 	});
 
+	it('Add Value (Key)', done => {
+		let coll = new ModelCollection(TestModel1, test_values, true);
+		let value = coll.addValue(test_values[0], 0).getValue(0);
+		chai.assert(value.test_string === 'test' && !value.__attributes, 'Incorrect Value Returned');
+		done();
+	});
+
 	it('Add Value (Coerce)', done => {
 		let coll = new ModelCollection(TestModel1, test_values, true);
 		let value = coll.addValue(test_values[0], null, true).getValue(1);
@@ -228,10 +235,27 @@ describe('AbstractModelCollection', () => {
 		done();
 	});
 
-	it('Validate', done => {
+	it('Validate Pass', done => {
 		let coll = new ModelCollection(TestModel1, test_values, true);
 		let valid = coll.validate();
 		chai.assert(valid.toString() === 'TestModel1', 'Incorrect validation');
+		done();
+	});
+
+	it('Validate Fail', done => {
+		let test_values = [{
+			test_number: 'abc',
+			test_boolean: false,
+			test_string: 'test',
+			test_email: 'foo@test.com',
+			test_object: { 'test': true },
+			test_uuid: '426fc69a-7572-4c39-95a7-683a97166973'
+		}];
+		let coll = new ModelCollection(TestModel1, test_values, true);
+		try { coll.validate(); }
+		catch(e) {
+			chai.assert(JSON.parse(e.message)[0] === 'test_number should be of type number');
+		}
 		done();
 	});
 
