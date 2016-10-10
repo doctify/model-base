@@ -377,7 +377,7 @@ describe('AbstractModel', () => {
 		});
 
 		describe('Date Time Validation', () => {
-			let type = 'time';
+			let type = 'datetime';
 			let invalid_value = '';
 			let valid_value = '1900-01-01 09:00:00';
 			let values = [ undefined, valid_value, invalid_value, undefined, valid_value, invalid_value ];
@@ -386,9 +386,18 @@ describe('AbstractModel', () => {
 		});
 
 		describe('Date Range Validation', () => {
-			let type = 'time';
+			let type = 'daterange';
 			let invalid_value = '';
 			let valid_value = JSON.stringify(['1900-01-01 09:00:00', '1900-01-01 09:00:00']);
+			let values = [ undefined, valid_value, invalid_value, undefined, valid_value, invalid_value ];
+			let expectations = createExpectations(type, values);
+			runTests(expectations);
+		});
+
+		describe('Timestamp Validation', () => {
+			let type = 'timestamp';
+			let invalid_value = '';
+			let valid_value = '1900-01-01 09:00:00.000+00';
 			let values = [ undefined, valid_value, invalid_value, undefined, valid_value, invalid_value ];
 			let expectations = createExpectations(type, values);
 			runTests(expectations);

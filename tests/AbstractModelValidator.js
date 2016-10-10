@@ -211,7 +211,7 @@ describe('AbstractModelValidator', () => {
 
 	describe('Date Time', () => {
 		let test_object = {
-			'time': [ '1990-10-10 09:00', '1990-10-10 09:30:00', '1990-10-10 09:30:00+00:00', '', +new Date(), undefined ]
+			'datetime': [ '1990-10-10 09:00', '1990-10-10 09:30:00', '1990-10-10 09:30:00+00:00', '', +new Date(), undefined ]
 		};
 
 		let expectations = createExpectations(test_object);
@@ -221,6 +221,15 @@ describe('AbstractModelValidator', () => {
 	describe('Date Range', () => {
 		let test_object = {
 			'daterange': [ [ new Date(), new Date() ], [ '1990-10-10 08:30:00+00', '10/10/1990 09:30:00+00' ], [ '10/10/1990', '10/10/1990' ], '', [ new Date(), +new Date() ], undefined ]
+		};
+
+		let expectations = createExpectations(test_object);
+		runTests(expectations);
+	});
+
+	describe('Timestamp', () => {
+		let test_object = {
+			'timestamp': [ '1990-10-10 09:30:00', '1990-10-10 09:30:00.000+00', '1990-10-10 09:30:00+00:00', '', +new Date(), undefined ]
 		};
 
 		let expectations = createExpectations(test_object);
