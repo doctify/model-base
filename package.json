@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "coveralls": "^2.11.14",
+    "coveralls": "2.11.14",
     "eslint-friendly-formatter": "2.0.6",
     "gulp": "3.9.1",
     "gulp-checkstyle-jenkins-reporter": "2.1.0",

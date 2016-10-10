@@ -13,7 +13,7 @@ install:
   - npm install
 
 script:
-  - npm run test-jenkins
+  - npm run test-ci
 
 after_script:
   - "cat ./test-coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
