@@ -22,6 +22,9 @@
     "preversion": "npm test",
     "postrelease": "npm publish",
     "release": "npm version patch",
+    "release-patch": "npm version patch",
+    "release-minor": "npm version minor",
+    "release-major": "npm version major",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
