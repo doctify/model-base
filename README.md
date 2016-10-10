@@ -63,33 +63,35 @@ let collection = new ModelCollection(result.rows, true);
 return collection.validate().getValues(true);
 ```
 
-
 ### List Of Validation Types
 
 ```javascript
-[ 'array',
-  'buffer',
-  'string',
-  'boolean',
-  'ip',
-  'url',
-  'slug',
-  'uuid',
-  'fqdn',
-  'json',
-  'email',
-  'alpha',
-  'base64',
-  'hex',
-  'alpha_numeric',
-  'phone',
-  'function',
-  'date',
-  'daterange',
-  'integer',
-  'float',
-  'number',
-  'object' ]
+'array',
+'buffer',
+'string',
+'boolean',
+'ip',
+'url',
+'slug',
+'uuid',
+'fqdn',
+'json',
+'email',
+'alpha',
+'base64',
+'hex',
+'alpha_numeric',
+'phone',
+'function',
+'date',
+'time',
+'datetime',
+'daterange',
+'timestamp',
+'integer',
+'float',
+'number',
+'object'
   ```
 
 
