@@ -18,10 +18,10 @@
   },
   "scripts": {
     "test": "gulp test",
+    "test-ci": "gulp test-ci",
     "preversion": "npm test",
     "postrelease": "npm publish",
     "release": "npm version patch",
-    "test-jenkins": "gulp test-jenkins",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
