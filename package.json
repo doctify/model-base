@@ -18,8 +18,8 @@
   },
   "scripts": {
     "test": "gulp test",
-    "test-ci": "gulp test-ci",
     "preversion": "npm test",
+    "test-ci": "gulp test-ci",
     "postrelease": "npm publish",
     "release": "npm version patch",
     "release-patch": "npm version patch",
