@@ -1,5 +1,8 @@
 # Model Base
 
+[![Build Status](https://travis-ci.org/devotox/model-base.svg?branch=master)](https://travis-ci.org/devotox/model-base)
+[![Coverage Status](https://coveralls.io/repos/github/devotox/model-base/badge.svg)](https://coveralls.io/github/devotox/model-base)
+
 Model Base Utility Classes
 
 Classes to  extend and help create useful data models with strict validation

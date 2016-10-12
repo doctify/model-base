@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- '6'
+sudo: false
+cache:
+  directories:
+  - node_modules
+install:
+- npm install -g gulp mocha
+- npm install
+script:
+- npm run test-ci
+after_script:
+- cat ./test-coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+notifications:
+  slack:
+    rooms:
+      secure: T8oTmpIg7H1PvTs8d0eQiAwKxMT/4AhPuulBo6AadFYt+1ZKCYTJzhATW6FLAP+cGKoAyU8XPxiz1AZicTDi7WoC6ZYAgjWFKrMTgY+/aUrSDvj0iaxnx19HceBSSp+KsXaOJ0EJOPrxvd0ntCL3TwYlKWvCWdWJvdJZRRNx3h5xq8nNNQPAuTnUU6zEk9WWsrSndOzRpGHSgdP1e61zLv67TCu8wR4erCl/Kx3kfA0WwgG53GnAdgOIH0Id75elsVdkg1niKYzjmTC9TAwh7L44t6RrtXbGOL2JXU2nGUv8JZ/CSt7BD7fdDSobbQ4FgBqRsBvBVE32MPy3Y19pcOB0ncEajwadnWg8xNCGrMzwLqTDrWK4UdaQsiW6tRMVOlDCYC4elbPGjKamFv9uV5wX9Ts1tIyrtsxtOiGq2Cv1c18FLoUU7PeELWkvSZka1rKTdYXqS0Z2Rz+5UhBSohv3TZYP4uhU63c+nttJBuh375H4nFXQVyFr+OpWYMq1XQ+S8z24jg9rHR/dAXWF+3OPh52YcU5TA0bPI+g+ZA5agNkVrPxRq56r9mExRBcfx3eqYbXU8z+VtBFbuf0dr3tTTIq0M6V0gef3IYiOTbRD/vf8HsOVy/tlMY9QPiOlkeWWozrFdgPTWaNW6a0IKZtFSGppLbeC3Ph2QTanEVE=

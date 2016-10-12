@@ -2,6 +2,7 @@
 /* globals global, require, process, -$ */
 
 'use strict';
+
 // ==================================== REQUIRES ==================================================== //
 
 let gulp = require('gulp');
@@ -67,7 +68,7 @@ gulp.task('lint', function() {
 		.pipe( $.jshint.reporter('fail') );
 });
 
-gulp.task('lint-jenkins', function() {
+gulp.task('lint-ci', function() {
 	return gulp.src(['./**/*.js',
 		'!./{test-coverage,test-coverage/**}',
 		'!./bower_components/**',
@@ -87,7 +88,7 @@ gulp.task('mocha', function(){
 		.on('end', function(){ return gulp.start('clean-test-reports'); });
 });
 
-gulp.task('mocha-jenkins', function(){
+gulp.task('mocha-ci', function(){
 	return gulp.src('tests/index.js')
 		.pipe( $.shell(['export NODE_TLS_REJECT_UNAUTHORIZED=0']) )
 		.pipe( gulp.src('tests/index.js', { read: false }) )
@@ -113,8 +114,8 @@ gulp.task('test', function(done) {
 	});
 });
 
-gulp.task('test-jenkins', function(done){
-	return run_sequence('clean-test-reports', 'istanbul', 'jsinspect', 'lint-jenkins', 'mocha-jenkins', function() {
+gulp.task('test-ci', function(done){
+	return run_sequence('clean-test-reports', 'istanbul', 'jsinspect', 'lint-ci', 'mocha-ci', function() {
 		exit(); done();
 	});
 });
