@@ -98,4 +98,16 @@ return collection.validate().getValues(true);
   ```
 
 
+### List Of Attribute Options
+- type (required) - type of validation function to run on value
+
+- required (default: false) - states whether the value is required or not
+
+- default_value - any value or function that returns a value that will be set if no value is present
+
+- custom - array of custom validation functions that allow you to do further validations on a value
+	- return a string value with the error if there is an error or nothing if no error
+
+- transform - function to transform input into any output
+	- must return a value or the value will be set to undefined
 
