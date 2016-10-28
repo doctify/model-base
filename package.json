@@ -1,6 +1,6 @@
 {
   "name": "model-base",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Model Utility Classes",
   "main": "index.js",
   "author": "Devonte Emokpae",
@@ -22,14 +22,13 @@
     "serve": "gulp serve",
     "start": "gulp start",
     "build": "gulp compile",
-    "preversion": "npm test",
+    "preversion": "sidekick run && npm test",
     "test-ci": "gulp test-ci",
     "postrelease": "npm publish",
     "release": "npm version patch",
     "release-patch": "npm version patch",
     "release-minor": "npm version minor",
     "release-major": "npm version major",
-    "preversion": "sidekick run && npm test",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
