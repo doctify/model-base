@@ -14,10 +14,14 @@
     "url": "git+https://github.com/devotox/model-base.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
   },
   "scripts": {
     "test": "gulp test",
+    "serve": "gulp serve",
+    "start": "gulp start",
+    "build": "gulp compile",
     "preversion": "npm test",
     "test-ci": "gulp test-ci",
     "postrelease": "npm publish",
@@ -25,6 +29,7 @@
     "release-patch": "npm version patch",
     "release-minor": "npm version minor",
     "release-major": "npm version major",
+    "preversion": "sidekick run && npm test",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
