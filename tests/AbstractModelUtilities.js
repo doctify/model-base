@@ -1,5 +1,3 @@
-'use strict';
-
 const chai = require('chai');
 const ModelUtilities = require('../lib/model_utilities');
 
@@ -77,6 +75,16 @@ describe('AbstractModelUtilities', () => {
 	describe('Is Object', () => {
 		let test_object = {
 			'isObject': [ {}, [], Object.create({}), function(){}, undefined, null, '' ]
+		};
+
+		let expectations = createExpectations(test_object);
+		runTests(expectations);
+	});
+
+
+	describe('Is Array', () => {
+		let test_object = {
+			'isArray': [ [], new Array(2), Object.assign([]), undefined, null, '' ]
 		};
 
 		let expectations = createExpectations(test_object);

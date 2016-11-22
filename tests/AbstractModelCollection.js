@@ -1,9 +1,6 @@
-'use strict';
-
 const chai = require('chai');
 const Model = require('../lib/model');
 const ModelCollection = require('../lib/model_collection');
-
 
 // test collection of collections
 //

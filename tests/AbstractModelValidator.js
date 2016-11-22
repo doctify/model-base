@@ -1,5 +1,3 @@
-'use strict';
-
 const chai = require('chai');
 const ModelValidator = require('../lib/model_validator');
 

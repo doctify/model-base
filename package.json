@@ -1,6 +1,6 @@
 {
   "name": "model-base",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Model Utility Classes",
   "main": "index.js",
   "author": "Devonte Emokpae",
@@ -14,11 +14,15 @@
     "url": "git+https://github.com/devotox/model-base.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
   },
   "scripts": {
     "test": "gulp test",
-    "preversion": "npm test",
+    "serve": "gulp serve",
+    "start": "gulp start",
+    "build": "gulp compile",
+    "preversion": "sidekick run && npm test",
     "test-ci": "gulp test-ci",
     "postrelease": "npm publish",
     "release": "npm version patch",
@@ -29,8 +33,9 @@
   },
   "dependencies": {
     "lodash": "4.16.4",
-    "moment": "2.15.1",
-    "validator": "6.0.0"
+    "moment": "2.15.2",
+    "sidekick": "^1.12.0",
+    "validator": "6.1.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
@@ -40,16 +45,16 @@
     "gulp-checkstyle-jenkins-reporter": "2.1.0",
     "gulp-eslint": "3.0.1",
     "gulp-istanbul": "1.1.1",
-    "gulp-jshint": "2.0.1",
+    "gulp-jshint": "2.0.2",
     "gulp-jsinspect": "2.0.0",
     "gulp-load-plugins": "1.3.0",
     "gulp-mocha": "3.0.1",
     "gulp-shell": "0.5.2",
     "gulp-watch": "4.3.10",
-    "jshint": "2.9.3",
+    "jshint": "2.9.4",
     "jshint-stylish": "2.2.1",
-    "mocha": "3.1.1",
-    "mocha-jenkins-reporter": "0.2.6",
+    "mocha": "3.1.2",
+    "mocha-jenkins-reporter": "0.3.0",
     "qunitjs": "2.0.1",
     "run-sequence": "1.2.2"
   },
