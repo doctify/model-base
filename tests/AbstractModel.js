@@ -385,6 +385,38 @@ describe('AbstractModel', () => {
 
 			done();
 		});
+
+		it('Choices Validation Pass', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key.choices = [ 'test' ];
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key') === 'test', 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Choices Validation Fail', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key.choices = [ 'test2', 'fake_test' ];
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			try { TestModel.validate(); }
+			catch(e) {
+				chai.assert(JSON.parse(e.message)[0] === 'test_key of type string should be one of test2,fake_test');
+			}
+
+			done();
+		});
 	});
 
 	describe('Validation', () => {

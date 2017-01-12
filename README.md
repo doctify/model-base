@@ -111,3 +111,6 @@ return collection.validate().getValues(true);
 - transform - function to transform input into any output
 	- must return a value or the value will be set to undefined
 
+- choices - array of possible values for model attribute
+	- if the value is not one of the choices an error will be thrown
+
