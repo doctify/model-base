@@ -417,6 +417,48 @@ describe('AbstractModel', () => {
 
 			done();
 		});
+
+		it('Alias Value Pass', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'string',
+				alias: 'test_key'
+			};
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key2') === 'test', 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Alias Value Fail', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'integer',
+				alias: 'test_key'
+			};
+
+			expectation.test_values.test_key2 = 0;
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			try { TestModel.validate(); }
+			catch(e) {
+				chai.assert(JSON.parse(e.message)[0] === 'test_key2 should be of type integer');
+			}
+
+			done();
+		});
 	});
 
 	describe('Validation', () => {
