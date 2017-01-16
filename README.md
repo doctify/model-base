@@ -113,7 +113,7 @@ return collection.validate().getValues(true);
 
 - choices - array of possible values for model attribute
 	- if the value is not one of the choices an error will be thrown
-                                                                                                
+
 - alias - key for other model attribute that keeps the values the same
 	- it passes the value from the other attribute into this one
 
