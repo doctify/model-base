@@ -437,6 +437,26 @@ describe('AbstractModel', () => {
 			done();
 		});
 
+		it('Alias Value Array Pass', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'string',
+				alias: [ 'test_key', 'test_key' ]
+			};
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			console.log(TestModel);
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key2') === 'test test', 'Incorrect Validation');
+
+			done();
+		});
+
 		it('Alias Value Fail', done => {
 			let expectation = _.cloneDeep(test_expectation);
 			expectation.test_attributes.test_key2 = {
