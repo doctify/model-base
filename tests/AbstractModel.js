@@ -515,7 +515,6 @@ describe('AbstractModel', () => {
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 
 			let valid = TestModel.isValid();
-			console.log(TestModel);
 			chai.assert(valid === true, 'Incorrect Validation');
 
 			valid = TestModel.validate();
