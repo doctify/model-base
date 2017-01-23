@@ -50,6 +50,7 @@ const runTests = (expectations) => {
 		it(expectation.label, done => {
 			let TestModel = new Model();
 			TestModel.setAttributes(expectation.test_attributes);
+			TestModel.setOptions(expectation.test_options);
 			TestModel.setValues(expectation.test_values);
 
 			let test_return = TestModel.isValid(true);
@@ -260,6 +261,8 @@ describe('AbstractModel', () => {
 	describe('Options Tests', () => {
 
 		let test_expectation = {
+			test_options: { output: true },
+			test_options2: { input: true },
 			test_values: { test_key: 'test' },
 			test_attributes: { test_key: { required: true, type: 'string' } }
 		};
@@ -291,6 +294,70 @@ describe('AbstractModel', () => {
 			};
 
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Output only Value Valid', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				input: true,
+				required: true,
+				type: 'integer'
+			};
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values, expectation.test_options);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Output only Value Fail', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				output: true,
+				required: true,
+				type: 'integer'
+			};
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values, expectation.test_options);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Input only Value Valid', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				output: true,
+				required: true,
+				type: 'integer'
+			};
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values, expectation.test_options2);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Input only Value Fail', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				input: true,
+				required: true,
+				type: 'integer'
+			};
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values, expectation.test_options2);
 
 			let valid = TestModel.isValid();
 			chai.assert(valid === false, 'Incorrect Validation');
@@ -413,6 +480,267 @@ describe('AbstractModel', () => {
 			try { TestModel.validate(); }
 			catch(e) {
 				chai.assert(JSON.parse(e.message)[0] === 'test_key of type string should be one of test2,fake_test');
+			}
+
+			done();
+		});
+
+		it('Alias Value Pass', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'string',
+				alias: 'test_key'
+			};
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key2') === 'test', 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Alias Value Array Pass', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'string',
+				alias: [ 'test_key', 'test_key' ]
+			};
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key2') === 'test test', 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Alias Value Fail', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'integer',
+				alias: 'test_key'
+			};
+
+			expectation.test_values.test_key2 = 0;
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			try { TestModel.validate(); }
+			catch(e) {
+				chai.assert(JSON.parse(e.message)[0] === 'test_key2 should be of type integer');
+			}
+
+			done();
+		});
+
+		it('Items for array pass', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'array',
+				items: {
+					type: 'string',
+					required: true
+				}
+			};
+
+			expectation.test_values.test_key2 = ['a', 'b', 'c'];
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key') === 'test', 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Items for array pass not required', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'array',
+				items: {
+					type: 'string',
+					required: false
+				}
+			};
+
+			expectation.test_values.test_key2 = ['a', 'b', null];
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key') === 'test', 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Items for array fail required', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'array',
+				items: {
+					type: 'string',
+					required: true
+				}
+			};
+
+			expectation.test_values.test_key2 = ['a', 'b', null];
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			try { TestModel.validate(); }
+			catch(e) {
+				chai.assert(JSON.parse(e.message)[0] === '2 of type string is required');
+			}
+
+			done();
+		});
+
+		it('Items for array fail invalid type', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'array',
+				items: {
+					type: 'string',
+					required: false
+				}
+			};
+
+			expectation.test_values.test_key2 = ['a', 'b', 2];
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			try { TestModel.validate(); }
+			catch(e) {
+				chai.assert(JSON.parse(e.message)[0] === '2 should be of type string');
+			}
+
+			done();
+		});
+
+		it('Items for object pass', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'object',
+				items: {
+					type: 'string',
+					required: true
+				}
+			};
+
+			expectation.test_values.test_key2 = { a: 'a', b: 'b', c: 'c' };
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key') === 'test', 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Items for object pass not required', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'object',
+				items: {
+					type: 'string',
+					required: false
+				}
+			};
+
+			expectation.test_values.test_key2 = { a: 'a', b: 'b', c: null };
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === true, 'Incorrect Validation');
+
+			valid = TestModel.validate();
+			chai.assert(valid.toString('test_key') === 'test', 'Incorrect Validation');
+
+			done();
+		});
+
+		it('Items for object fail required', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'object',
+				items: {
+					type: 'string',
+					required: true
+				}
+			};
+
+			expectation.test_values.test_key2 = { a: 'a', b: 'b', c: null };
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			try { TestModel.validate(); }
+			catch(e) {
+				chai.assert(JSON.parse(e.message)[0] === 'c of type string is required');
+			}
+
+			done();
+		});
+
+		it('Items for object fail invalid type', done => {
+			let expectation = _.cloneDeep(test_expectation);
+			expectation.test_attributes.test_key2 = {
+				required: true,
+				type: 'object',
+				items: {
+					type: 'string',
+					required: false
+				}
+			};
+
+			expectation.test_values.test_key2 = { a: 'a', b: 'b', c: 2 };
+
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+
+			let valid = TestModel.isValid();
+			chai.assert(valid === false, 'Incorrect Validation');
+
+			try { TestModel.validate(); }
+			catch(e) {
+				chai.assert(JSON.parse(e.message)[0] === 'c should be of type string');
 			}
 
 			done();
