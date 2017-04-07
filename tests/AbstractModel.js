@@ -201,17 +201,26 @@ describe('AbstractModel', () => {
 			done();
 		});
 
-		it('Add Attribute', done => {
-			let TestModel = new Model(expectation.test_attributes);
-			let attribute = TestModel.addAttribute('test_key2', { required: false, type: 'number' }).getAttribute('test_key2');
-			chai.assert(attribute.required === false && attribute.type === 'number', 'Incorrect attribute added');
-			done();
-		});
+		// it('Add Attribute', done => {
+		// 	let TestModel = new Model(expectation.test_attributes);
+		// 	let attribute = TestModel.addAttribute('test_key2', { required: false, type: 'number' }).getAttribute('test_key2');
+		// 	chai.assert(attribute.required === false && attribute.type === 'number', 'Incorrect attribute added');
+		// 	done();
+		// });
 
-		it('Delete Attribute', done => {
-			let TestModel = new Model(expectation.test_attributes);
-			let attribute = TestModel.deleteAttribute('test_key').getAttribute('test_key');
-			chai.assert(!attribute, 'Incorrect attribute deleted');
+		// it('Delete Attribute', done => {
+		// 	let TestModel = new Model(expectation.test_attributes);
+		// 	let attribute = TestModel.deleteAttribute('test_key').getAttribute('test_key');
+		// 	chai.assert(!attribute, 'Incorrect attribute deleted');
+		// 	done();
+		// });
+
+		it('Merge Keys', done => {
+			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
+			let merged = TestModel.mergeKeys(expectation.test_values);
+
+			chai.assert(merged.length === 1, 'Incorrect merged length');
+			chai.assert(merged[0] === 'test_key', 'Incorrect Merge Keys');
 			done();
 		});
 

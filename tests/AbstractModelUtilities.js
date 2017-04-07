@@ -44,14 +44,14 @@ describe('AbstractModelUtilities', () => {
 		});
 	});
 
-	describe('Clone Object', () => {
-		it('Clone Object', done => {
-			let objectToClone = { test_key1: 'test', test_key2: 'test2' };
-			let value = ModelUtilities.cloneObject(objectToClone);
-			chai.assert(Object.keys(value).length === 2 && value.test_key2 === 'test2' && value !== objectToClone, 'Object not cloned');
-			done();
-		});
-	});
+	// describe('Clone Object', () => {
+	// 	it('Clone Object', done => {
+	// 		let objectToClone = { test_key1: 'test', test_key2: 'test2' };
+	// 		let value = ModelUtilities.cloneObject(objectToClone);
+	// 		chai.assert(Object.keys(value).length === 2 && value.test_key2 === 'test2' && value !== objectToClone, 'Object not cloned');
+	// 		done();
+	// 	});
+	// });
 
 	describe('Validate Moment', () => {
 		it('Validate Formats', done => {
