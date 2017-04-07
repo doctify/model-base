@@ -1,6 +1,6 @@
 {
   "name": "model-base",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Model Utility Classes",
   "main": "index.js",
   "author": "Devonte Emokpae",
