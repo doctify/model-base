@@ -12,7 +12,7 @@ const createExpectations = (type, values) => {
 		label: 'Required, Empty, N/A Type',
 		attributes: { required: true, type: type }
 	}, {
-		test_return: null,
+		test_return: undefined,
 		label: 'Required, Not Empty, Right Type',
 		attributes: { required: true, type: type }
 	}, {
@@ -20,11 +20,11 @@ const createExpectations = (type, values) => {
 		label: 'Required, Not Empty, Wrong Type',
 		attributes: { required: true, type: type }
 	}, {
-		test_return: null,
+		test_return: undefined,
 		label: 'Not Required, Empty, N/A Type',
 		attributes: { required: false, type: type }
 	}, {
-		test_return: null,
+		test_return: undefined,
 		label: 'Not Required, Not Empty, Right Type',
 		attributes: { required: false, type: type }
 	}, {
@@ -118,28 +118,28 @@ describe('AbstractModel', () => {
 		it('To JSON', done => {
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 			let json = TestModel.toJSON();
-			chai.assert(json.test_key === 'test' && json.__attributes, 'Incorrect JSON representation of Model');
+			chai.assert(json.test_key === 'test', 'Incorrect JSON representation of Model');
 			done();
 		});
 
 		it('To JSON (Strict)', done => {
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 			let json = TestModel.toJSON(null, true);
-			chai.assert(json.test_key === 'test' && !json.__attributes, 'Incorrect JSON representation of Model');
+			chai.assert(json.test_key === 'test', 'Incorrect JSON representation of Model');
 			done();
 		});
 
 		it('To JSON (No Attributes)', done => {
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 			let json = TestModel.toJSON(true);
-			chai.assert(json.test_key === 'test' && !json.__attributes, 'Incorrect JSON representation of Model');
+			chai.assert(json.test_key === 'test', 'Incorrect JSON representation of Model');
 			done();
 		});
 
 		it('To JSON (No Attributes | Strict)', done => {
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 			let json = TestModel.toJSON(true, true);
-			chai.assert(json.test_key === 'test' && !json.__attributes, 'Incorrect JSON representation of Model');
+			chai.assert(json.test_key === 'test', 'Incorrect JSON representation of Model');
 			done();
 		});
 
@@ -201,29 +201,6 @@ describe('AbstractModel', () => {
 			done();
 		});
 
-		// it('Add Attribute', done => {
-		// 	let TestModel = new Model(expectation.test_attributes);
-		// 	let attribute = TestModel.addAttribute('test_key2', { required: false, type: 'number' }).getAttribute('test_key2');
-		// 	chai.assert(attribute.required === false && attribute.type === 'number', 'Incorrect attribute added');
-		// 	done();
-		// });
-
-		// it('Delete Attribute', done => {
-		// 	let TestModel = new Model(expectation.test_attributes);
-		// 	let attribute = TestModel.deleteAttribute('test_key').getAttribute('test_key');
-		// 	chai.assert(!attribute, 'Incorrect attribute deleted');
-		// 	done();
-		// });
-
-		it('Merge Keys', done => {
-			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
-			let merged = TestModel.mergeKeys(expectation.test_values);
-
-			chai.assert(merged.length === 1, 'Incorrect merged length');
-			chai.assert(merged[0] === 'test_key', 'Incorrect Merge Keys');
-			done();
-		});
-
 		it('Is Valid', done => {
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 			let valid = TestModel.isValid();
@@ -234,7 +211,7 @@ describe('AbstractModel', () => {
 		it('Custom Validation', done => {
 			let TestModel = new Model(expectation.test_attributes, expectation.test_values);
 			let valid = TestModel.custom_validation();
-			chai.assert(valid === null, 'Incorrect Validation');
+			chai.assert(valid === undefined, 'Incorrect Validation');
 			done();
 		});
 
@@ -378,7 +355,7 @@ describe('AbstractModel', () => {
 			let expectation = _.cloneDeep(test_expectation);
 			expectation.test_attributes.test_key.custom = [
 				(value) => {
-					return value === 'test' ? null : 'value should equal test';
+					return value === 'test' ? undefined : 'value should equal test';
 				}
 			];
 
@@ -397,7 +374,7 @@ describe('AbstractModel', () => {
 			let expectation = _.cloneDeep(test_expectation);
 			expectation.test_attributes.test_key.custom = [
 				(value) => {
-					return value !== 'test' ? null : 'value should not equal test';
+					return value !== 'test' ? undefined : 'value should not equal test';
 				}
 			];
 
@@ -775,11 +752,11 @@ describe('AbstractModel', () => {
 			let type = 'string';
 			let error = `value did not pass minimum length(${minlength}) requirement`;
 			let expectation = {
-				test_return: null,
+				test_return: undefined,
 				test_values: { test_key: 'test' },
 				label: 'Custom (Min Length - Pass)',
 				test_attributes: { test_key: { required: true, type: type, custom: [
-					function(value) { return value && value.length >= minlength ? null : error; }
+					function(value) { return value && value.length >= minlength ? undefined : error; }
 				] } }
 			};
 
