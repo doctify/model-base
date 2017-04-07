@@ -44,11 +44,18 @@ describe('AbstractModelUtilities', () => {
 		});
 	});
 
-	describe('Clone Object', () => {
-		it('Clone Object', done => {
-			let objectToClone = { test_key1: 'test', test_key2: 'test2' };
-			let value = ModelUtilities.cloneObject(objectToClone);
-			chai.assert(Object.keys(value).length === 2 && value.test_key2 === 'test2' && value !== objectToClone, 'Object not cloned');
+	describe('Map Filter Object', () => {
+		it('Map Filter Object', done => {
+			let object = { a: 1, b: 2, c: undefined };
+			let value = ModelUtilities.mapFilter(object, (key) => object[key] && key);
+			chai.assert(value.length === 2 && value[0] === 'a' && value[1] === 'b');
+			done();
+		});
+
+		it('Map Filter Array', done => {
+			let object = [ 2, 'b', undefined ];
+			let value = ModelUtilities.mapFilter(object, (key) => object[key] && (parseInt(key) + 2));
+			chai.assert(value.length === 2 && value[0] === 2 && value[1] === 3 && value[2] === undefined );
 			done();
 		});
 	});

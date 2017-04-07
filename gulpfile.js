@@ -23,9 +23,7 @@ let exit = function() {
 
 global.api_path = path.join(__dirname, '/');
 
-
 // ==================================== Default Task `gulp` ==================================================== //
-
 
 gulp.task('default', ['test']);
 
@@ -47,7 +45,8 @@ gulp.task('istanbul', function () {
 });
 
 gulp.task('jsinspect', function () {
-	return gulp.src(['./**/*.js','!./tests/**',
+	return gulp.src(['./**/*.js',
+		'!./tests/**', '!./gulpfile.js',
 		'!./{test-coverage,test-coverage/**}',
 		'!./bower_components/**',
 		'!./node_modules/**'])
@@ -63,9 +62,9 @@ gulp.task('lint', function() {
 		'!./{test-coverage,test-coverage/**}',
 		'!./bower_components/**',
 		'!./node_modules/**'])
-		.pipe( $.jshint() )
-		.pipe( $.jshint.reporter('jshint-stylish') )
-		.pipe( $.jshint.reporter('fail') );
+		.pipe($.jshint())
+		.pipe($.jshint.reporter('jshint-stylish'))
+		.pipe($.jshint.reporter('fail'));
 });
 
 gulp.task('lint-ci', function() {
@@ -73,26 +72,27 @@ gulp.task('lint-ci', function() {
 		'!./{test-coverage,test-coverage/**}',
 		'!./bower_components/**',
 		'!./node_modules/**'])
-		.pipe( $.jshint() )
-		.pipe( $.jshint.reporter('gulp-checkstyle-jenkins-reporter', {
+		.pipe($.jshint())
+		.pipe($.jshint.reporter('gulp-checkstyle-jenkins-reporter', {
 			filename:'./test-reports/api-jshint-tests-report.xml'
-		}) );
+		}));
 });
 
 gulp.task('mocha', function(){
 	return gulp.src('tests/index.js')
-		.pipe( $.shell(['export NODE_TLS_REJECT_UNAUTHORIZED=0']) )
-		.pipe( gulp.src('tests/index.js', { read: false }) )
-		.pipe( $.mocha({ reporter: 'spec', timeout: 20000 }) )
-		.pipe( $.istanbul.writeReports({dir: './test-coverage'}) )
+		.pipe($.shell(['export NODE_TLS_REJECT_UNAUTHORIZED=0']))
+		.pipe(gulp.src('tests/index.js', { read: false }))
+		.pipe($.mocha({ reporter: 'spec', timeout: 20000 }))
+		.pipe($.istanbul.writeReports({ dir: './test-coverage' }))
+		.pipe($.istanbul.enforceThresholds({ thresholds: { global: 90 } }))
 		.on('end', function(){ return gulp.start('clean-test-reports'); });
 });
 
 gulp.task('mocha-ci', function(){
 	return gulp.src('tests/index.js')
-		.pipe( $.shell(['export NODE_TLS_REJECT_UNAUTHORIZED=0']) )
-		.pipe( gulp.src('tests/index.js', { read: false }) )
-		.pipe( $.mocha({
+		.pipe($.shell(['export NODE_TLS_REJECT_UNAUTHORIZED=0']))
+		.pipe(gulp.src('tests/index.js', { read: false }))
+		.pipe($.mocha({
 			timeout: 20000,
 			reporter: 'mocha-jenkins-reporter',
 			reporterOptions: {
@@ -100,12 +100,12 @@ gulp.task('mocha-ci', function(){
 				junit_report_name: 'API Tests',
 				junit_report_path: './test-reports/api-mocha-tests-report.xml'
 			}
-		}) )
-		.pipe( $.istanbul.writeReports({
+		}))
+		.pipe($.istanbul.writeReports({
 			dir: './test-coverage',
 			reporters: [ 'lcov', 'json', 'text', 'text-summary', 'cobertura' ]
-		}) )
-		.pipe($.istanbul.enforceThresholds({ thresholds: { global: 0 } }));
+		}))
+		.pipe($.istanbul.enforceThresholds({ thresholds: { global: 90 } }));
 });
 
 gulp.task('test', function(done) {

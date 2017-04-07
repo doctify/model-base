@@ -2,18 +2,6 @@ const chai = require('chai');
 const Model = require('../lib/model');
 const ModelCollection = require('../lib/model_collection');
 
-// test collection of collections
-//
-// collection fails different types
-//
-// collection fails different types failed model
-//
-// collection passes same types same models
-//
-// models coerced
-//
-// regular object coerced
-
 let test_attributes = {
 	test_string: {
 		type: 'string',
@@ -121,28 +109,7 @@ describe('AbstractModelCollection', () => {
 	it('To JSON', done => {
 		let coll = new ModelCollection(TestModel1, test_values, true);
 		let json = coll.toJSON();
-		chai.assert(json.length === 1 && json[0].test_string === 'test' && json[0].__attributes, 'Incorrect JSON representation of Model Collection');
-		done();
-	});
-
-	it('To JSON (Strict)', done => {
-		let coll = new ModelCollection(TestModel1, test_values, true);
-		let json = coll.toJSON(null, true);
-		chai.assert(json.length === 1 && json[0].test_string === 'test' && !json[0].__attributes, 'Incorrect JSON representation of Model Collection');
-		done();
-	});
-
-	it('To JSON (No Attributes)', done => {
-		let coll = new ModelCollection(TestModel1, test_values, true);
-		let json = coll.toJSON(true);
-		chai.assert(json.length === 1 && json[0].test_string === 'test' && !json[0].__attributes, 'Incorrect JSON representation of Model Collection');
-		done();
-	});
-
-	it('To JSON (No Attributes | Strict)', done => {
-		let coll = new ModelCollection(TestModel1, test_values, true);
-		let json = coll.toJSON(true, true);
-		chai.assert(json.length === 1 && json[0].test_string === 'test' && !json[0].__attributes, 'Incorrect JSON representation of Model Collection');
+		chai.assert(json.length === 1 && json[0].test_string === 'test', 'Incorrect JSON representation of Model Collection');
 		done();
 	});
 
@@ -164,7 +131,7 @@ describe('AbstractModelCollection', () => {
 	it('Get Value', done => {
 		let coll = new ModelCollection(TestModel1, test_values, true);
 		let value = coll.getValue(0);
-		chai.assert(value.getValues().test_string === 'test' && !value.getValues().__attributes, 'Incorrect Value Returned');
+		chai.assert(value.getValues().test_string === 'test', 'Incorrect Value Returned');
 		done();
 	});
 
@@ -178,21 +145,21 @@ describe('AbstractModelCollection', () => {
 	it('Add Value', done => {
 		let coll = new ModelCollection(TestModel1, test_values, true);
 		let value = coll.addValue(test_values[0]).getValue(1);
-		chai.assert(value.test_string === 'test' && !value.__attributes, 'Incorrect Value Returned');
+		chai.assert(value.test_string === 'test', 'Incorrect Value Returned');
 		done();
 	});
 
 	it('Add Value (Key)', done => {
 		let coll = new ModelCollection(TestModel1, test_values, true);
 		let value = coll.addValue(test_values[0], 0).getValue(0);
-		chai.assert(value.test_string === 'test' && !value.__attributes, 'Incorrect Value Returned');
+		chai.assert(value.test_string === 'test', 'Incorrect Value Returned');
 		done();
 	});
 
 	it('Add Value (Coerce)', done => {
 		let coll = new ModelCollection(TestModel1, test_values, true);
-		let value = coll.addValue(test_values[0], null, true).getValue(1);
-		chai.assert(value.test_string === 'test' && value.__attributes, 'Incorrect Value Returned');
+		let value = coll.addValue(test_values[0], null, true).getValue(1, true);
+		chai.assert(value.test_string === 'test', 'Incorrect Value Returned');
 		done();
 	});
 
